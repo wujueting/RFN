@@ -7,30 +7,26 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    lgbm = joblib.load('./model.pkl')   # 本地测试路径，根据pkl文件所在位置进行更改
-    # lgbm = joblib.load('./lgbm.pkl')  # 上传到github所需路径，路径无需更改
+    lgbm = joblib.load('./model.pkl')
 
     class Subject:
-        def __init__(self, age, gender, calcium, glucose, creatinine, bun, aniongap, bicarbonate):
-            self.age = age
-            self.gender = gender
-            self.calcium = calcium
-            self.glucose = glucose
-            self.creatinine = creatinine
-            self.bun = bun
-            self.aniongap = aniongap
-            self.bicarbonate = bicarbonate
+        def __init__(self, Age,Audiogram_type,ALB,Degree_of_hearing_loss,MCV,Onset_to_treatment):
+            self.Age = Age
+            self.Audiogram_type = Audiogram_type
+            self.ALB = ALB
+            self.Degree_of_hearing_loss = Degree_of_hearing_loss
+            self.MCV = MCV
+            self.Onset_to_treatment = Onset_to_treatment
+       
 
         def make_predict(self):
             subject_data = {
-                "age": [self.age],
-                "gender": [self.gender],
-                "calcium": [self.calcium],
-                "glucose": [self.glucose],
-                "creatinine": [self.creatinine],
-                "bun": [self.bun],
-                "aniongap": [self.aniongap],
-                "bicarbonate": [self.bicarbonate]
+                "Age": [self.Age],
+                "Audiogram_type": [self.Audiogram_type],
+                "ALB": [self.ALB],
+                "Degree_of_hearing_loss": [self.Degree_of_hearing_loss],
+                "MCV": [self.MCV],
+                "Onset_to_treatment": [self.Onset_to_treatment],
             }
 
             # Create a DataFrame
@@ -42,38 +38,32 @@ def main():
             st.write(f"""
                 <div class='all'>
                     <p style='text-align: center; font-size: 20px;'>
-                        <b>The model predicts the risk of 90-day death is {adjusted_prediction} %</b>
+                        <b>The model predicts the hearing recovery rate is {adjusted_prediction} %</b>
                     </p>
                 </div>
             """, unsafe_allow_html=True)
 
             explainer = shap.Explainer(lgbm)
             shap_values = explainer.shap_values(df_subject)
-            # 力图
             shap.force_plot(explainer.expected_value[1], shap_values[1][0, :], df_subject.iloc[0, :], matplotlib=True)
-            # 瀑布图
-            # ex = shap.Explanation(shap_values[1][0, :], explainer.expected_value[1], df_subject.iloc[0, :])
-            # shap.waterfall_plot(ex)
             st.pyplot(plt.gcf())
 
-    st.set_page_config(page_title='AMI 90-Day Mortality')
+    st.set_page_config(page_title='Hearing recovery of sudden sensorineural hearing loss')
     st.markdown(f"""
                 <div class='all'>
-                    <h1 style='text-align: center;'>Predicting AMI 90-Day Mortality</h1>
+                    <h1 style='text-align: center;'>Predicting hearing recovery rate</h1>
                     <p class='intro'></p>
                 </div>
                 """, unsafe_allow_html=True)
-    age = st.number_input("Age (years)", value=50)
-    gender = st.selectbox("Gender (Female = 0, Male = 1)", [0, 1], index=0)
-    calcium = st.number_input("Calcium (mg/dl)", value=9.0)
-    glucose = st.number_input("Glucose (mg/dl)", value=100.0)
-    creatinine = st.number_input("Creatinine (mg/dl)", value=1.0)
-    bun = st.number_input("BUN (mg/dl)", value=12.0)
-    aniongap = st.number_input("Aniongap (mmol/L)", value=10.0)
-    bicarbonate = st.number_input("Bicarbonate (mmol/L)", value=25.0)
-
+    Age = st.number_input("Age (years)", value=50.5)
+    Audiogram_type = st.selectbox("Audiogram type (Ascending = 0, flat = 1, descending= 2, profound= 3 )", [0, 1, 2 , 3 ], index=0)
+    ALB = st.number_input("ALB (g/dl)", value=44.75)
+    Degree_of_hearing_loss = st.selectbox("Degree_of_hearing_loss (Normal = 0, Mild = 1, Moderate= 2, Moderately severe= 3 ,Severe=4,  Profound=5, Complete=6 )", [0, 1, 2 , 3 ,4 , 5, 6 ], index=0)
+    MCV = st.number_input("MCV (fl)", value=88.85)
+    Onset_to_treatment = st.number_input("Onset_to_treatment (days)", value=15.0)
+    
     if st.button(label="Submit"):
-        user = Subject(age, gender, calcium, glucose, creatinine, bun, aniongap, bicarbonate)
+        user = Subject(Age,Audiogram_type,ALB,Degree_of_hearing_loss,MCV,Onset_to_treatment)
         user.make_predict()
 
 
