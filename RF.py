@@ -56,9 +56,11 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
     Age = st.number_input("Age (years)", value=50.5)
-    Audiogram_type = st.selectbox("Audiogram type (Ascending = 0, flat = 1, descending= 2, profound= 3 )", [0, 1, 2 , 3 ], index=0)
+    #Audiogram_type = st.selectbox("Audiogram type (Ascending = 0, flat = 1, descending= 2, profound= 3 )", [0, 1, 2 , 3 ], index=0)
+    Audiogram_type = st.slider("Audiogram type (Ascending = 0, flat = 1, descending= 2, profound= 3 )",0,3,0)
     ALB = st.number_input("ALB (g/dl)", value=44.75)
-    Degree_of_hearing_loss = st.selectbox("Degree_of_hearing_loss (Normal = 0, Mild = 1, Moderate= 2, Moderately severe= 3 ,Severe=4,  Profound=5, Complete=6 )", [0, 1, 2 , 3 ,4 , 5, 6 ], index=0)
+    # Degree_of_hearing_loss = st.selectbox("Degree_of_hearing_loss (Normal = 0, Mild = 1, Moderate= 2, Moderately severe= 3 ,Severe=4,  Profound=5, Complete=6 )", [0, 1, 2 , 3 ,4 , 5, 6 ], index=0)
+    Degree_of_hearing_loss = st.slider("Degree_of_hearing_loss (Normal = 0, Mild = 1, Moderate= 2, Moderately severe= 3 ,Severe=4,  Profound=5, Complete=6 )",0,5,0)
     MCV = st.number_input("MCV (fl)", value=88.85)
     Onset_to_treatment = st.number_input("Onset_to_treatment (days)", value=15.0)
     
