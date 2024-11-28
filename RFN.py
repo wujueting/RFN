@@ -48,7 +48,7 @@ def main():
             shap_values = explainer.shap_values(df_subject)
             # 力图
             #shap.force_plot(explainer.expected_value[1], shap_values[1][0, :], df_subject.iloc[0, :], matplotlib=True)
-            if len(shap_values) == 0:
+            if len(shap_values) == 1:
                 expected_value_index = min(1, len(explainer.expected_value) - 1)
                 shap_values_index = min(1, len(shap_values) - 1)
                 shap.force_plot(
