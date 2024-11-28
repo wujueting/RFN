@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    lgbm = joblib.load('./model.pkl')   # 本地测试路径，根据pkl文件所在位置进行更改
+    lgbm = joblib.load('./random_forest_model.pkl')   # 本地测试路径，根据pkl文件所在位置进行更改
     # lgbm = joblib.load('./lgbm.pkl')  # 上传到github所需路径，路径无需更改
 
     class Subject:
