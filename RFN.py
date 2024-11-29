@@ -46,6 +46,10 @@ def main():
 
             explainer = shap.Explainer(lgbm)
             shap_values = explainer.shap_values(df_subject)
+            
+            print("Expected Value:", explainer.expected_value)
+            print("SHAP Values Shape:", shap_values.shape)
+            
             # 力图
             #shap.force_plot(explainer.expected_value[1], shap_values[1][0, :], df_subject.iloc[0, :], matplotlib=True)
             if len(shap_values) == 1:
